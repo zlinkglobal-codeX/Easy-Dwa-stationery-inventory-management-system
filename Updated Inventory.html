@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stationary Inventory Management</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles1.css">
+    <style>
+        .table th, .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+        .table .btn {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                <div class="sidebar-sticky pt-3">
+                    <h5>Filters</h5>
+                    <form>
+                        <div class="form-group">
+                            <label for="item_type">Item Type</label>
+                            <select id="item_type" class="form-control">
+                                <option>Select type</option>
+                                <option>Books</option>
+                                <option>Pens</option>
+                                <option>Notebooks</option>
+                                <option>Markers</option>
+                                <!-- Add more options as needed -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="price_range">Price Range</label>
+                            <select id="price_range" class="form-control">
+                                <option>Select price range</option>
+                                <option>0 - 10</option>
+                                <option>10 - 20</option>
+                                <option>20 - 30</option>
+                                <option>30 - 40</option>
+                                <!-- Add more options as needed -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="availability">Availability</label>
+                            <select id="availability" class="form-control">
+                                <option>Select availability</option>
+                                <option>In Stock</option>
+                                <option>Out of Stock</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-primary">Apply Filters</button>
+                    </form>
+                </div>
+            </nav>
+            <!-- Main Content -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom bg-primary text-white">
+                    <h1 class="h2">Stationary Inventory</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <button type="button" class="btn btn-sm btn-outline-light" data-toggle="modal" data-target="#addItemModal">Add New Item</button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width: 10%;">Item ID</th>
+                                <th style="width: 15%;">Item Name</th>
+                                <th style="width: 10%;">Total Stock</th>
+                                <th style="width: 10%;">Price</th>
+                                <th style="width: 10%;">Quantity Bought</th>
+                                <th style="width: 10%;">Stock Left</th>
+                                <th style="width: 10%;">Amount Paid</th>
+                                <th style="width: 10%;">Restock</th>
+                                <th style="width: 10%;">Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventoryTable">
+                            <!-- Inventory items will be appended here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <div class="form-group">
+                        <label for="totalPaidAmount">Total Paid Amount</label>
+                        <input type="text" id="totalPaidAmount" class="form-control" readonly>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <!-- Add Item Modal -->
+    <div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addItemModalLabel">Add New Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addItemForm">
+                        <div class="form-group">
+                            <label for="item_name">Item Name</label>
+                            <input type="text" id="item_name" name="item_name" class="form-control" placeholder="Item Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="stock">Total Stock</label>
+                            <input type="number" id="stock" name="stock" class="form-control" placeholder="Total Stock" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Price</label>
+                            <input type="number" step="0.01" id="price" name="price" class="form-control" placeholder="Price" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Item</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Restock Item Modal -->
+    <div class="modal fade" id="restockItemModal" tabindex="-1" role="dialog" aria-labelledby="restockItemModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="restockItemModalLabel">Restock Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="restockForm">
+                        <div class="form-group">
+                            <label for="restockQuantity">Quantity to Add</label>
+                            <input type="number" id="restockQuantity" name="restockQuantity" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Restock</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="scripts1.js"></script>
+</body>
+</html>
